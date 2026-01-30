@@ -11,6 +11,7 @@ class batch_draw
     }
     ~batch_draw()
     {
+        FlushBatchDraw();
         EndBatchDraw();
     }
 

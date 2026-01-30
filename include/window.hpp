@@ -30,6 +30,8 @@ class window
     }
     window &operator=(window &&other) noexcept
     {
+        if (m_hwnd)
+            closegraph();
         m_hwnd = other.m_hwnd;
         other.m_hwnd = nullptr;
         return *this;
@@ -61,12 +63,22 @@ class window
   private:
     std::string get_title_from_winapi() const
     {
-        char buff[256];
+        auto length = GetWindowTextLengthA(m_hwnd);
 
-        if (!GetWindowTextA(m_hwnd, buff, 256))
-            throw std::runtime_error("Get window title failed      error code : " + std::to_string(GetLastError()));
+        if (length == 0)
+        {
+            DWORD error = GetLastError();
+            if (error != ERROR_SUCCESS)
+                throw std::runtime_error("Get title length failed      error code : " + std::to_string(error));
+            return "";
+        }
 
-        return buff;
+        std::string result;
+        result.resize(length);
+
+        if (!GetWindowTextA(m_hwnd, &result[0], length + 1))
+            throw std::runtime_error("Get title failed      error code : " + std::to_string(GetLastError()));
+        return result;
     }
 
   private:
