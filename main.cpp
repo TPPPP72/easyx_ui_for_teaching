@@ -1,28 +1,28 @@
 #include "include/batch_draw.hpp"
+#include "include/font.hpp"
 #include "include/window.hpp"
-#include <iostream>
 #include <thread>
 
 int main()
 {
     window w(640, 480);
-
-    std::cout << "current title is : " << w.title() << '\n';
-
-    w.set_title("new_title");
-
-    std::cout << "current title is : " << w.title() << '\n';
+    w.set_title("easyx ui");
 
     batch_draw buffer{};
 
-    std::uint32_t x = 200;
+    setlinecolor(RED);
+    setfillcolor(BLUE);
 
-    while (x <= 600)
+    eui::font_info info;
+    info.height = 18;
+    info.family = "Consolas";
+
+    while (true)
     {
         w.clear();
-        circle(x, 200, 100);
-        ++x;
+        eui::font f{info, 30, 30, "Hello"};
+        f.draw();
         buffer.flush();
-        std::this_thread::sleep_for(std::chrono::milliseconds(80));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }

@@ -6,6 +6,8 @@ add_subdirectory(easyx)
 
 add_executable(test)
 
+target_compile_features(test PRIVATE cxx_std_17)
+
 target_sources(test
   PRIVATE
     main.cpp

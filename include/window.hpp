@@ -76,7 +76,7 @@ class window
         std::string result;
         result.resize(length);
 
-        if (!GetWindowTextA(m_hwnd, &result[0], length + 1))
+        if (!GetWindowTextA(m_hwnd, result.data(), length + 1))
             throw std::runtime_error("Get title failed      error code : " + std::to_string(GetLastError()));
         return result;
     }
