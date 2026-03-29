@@ -32,8 +32,12 @@ inline bool get_message(message &msg)
     {
         if (exmsg.wParam == WM_SIZE)
             msg.m_window = window_event::resize;
+        else
+            msg.m_window = window_event::null;
         if (exmsg.lbutton)
             msg.m_button = mouse_event::left;
+        else
+            msg.m_button = mouse_event::null;
         msg.m_x = exmsg.x;
         msg.m_y = exmsg.y;
     }
